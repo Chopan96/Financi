@@ -56,6 +56,7 @@
 <div class="col-md-6">
    <div class="accordion-container my-4">
     <div class="accordion-header d-flex justify-content-between align-items-center">
+        <img src="imagenes/Dinero.png" alt="Icono de ingresos" class="icono">
         <h3>Ingresos del Usuario</h3>
         <button class="accordion-toggle" onclick="toggleAccordion('accordion-content1')" style="background: none; border: none;">&#9662;</button>
     </div>
@@ -102,6 +103,7 @@
  <!-- Segunda caja Gastos comunes -->
  <div class="accordion-container my-4">
     <div class="accordion-header d-flex justify-content-between align-items-center">
+        <img src="imagenes/casa.webp" alt="Icono de ingresos" class="icono">
         <h3>Gastos Comunes</h3>
         <button class="accordion-toggle" onclick="toggleAccordion('accordion-content2')" style="background: none; border: none;">&#9662;</button>
     </div>
@@ -137,6 +139,7 @@
  <!-- Tercera caja Gastos servicios -->
  <div class="accordion-container my-4">
     <div class="accordion-header d-flex justify-content-between align-items-center">
+        <img src="imagenes/servicios.png" alt="Icono de ingresos" class="icono">
         <h3>Gastos Servicios</h3>
         <button class="accordion-toggle" onclick="toggleAccordion('accordion-content3')" style="background: none; border: none;">&#9662;</button>
     </div>
@@ -177,6 +180,7 @@
  <!-- Cuarta caja Gastos Hormiga-->
  <div class="accordion-container my-4">
     <div class="accordion-header d-flex justify-content-between align-items-center">
+        <img src="imagenes/Carrito.png" alt="Icono de ingresos" class="icono">
         <h3>Gastos Hormiga</h3>
         <button class="accordion-toggle" onclick="toggleAccordion('accordion-content4')" style="background: none; border: none;">&#9662;</button>
     </div>
@@ -211,6 +215,57 @@
         </form>
     </div>
   </div>
+  <div class="contenedor ">
+    <!-- Sección de Resumen de Totales -->
+    <div class="card">
+        <div class="titulo">
+            <h4 class="titulo-con-imagen">
+                <img src="icono-total.png" alt="Ícono" class="icono">Resumen de Totales
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="accordion-container">
+                <!-- Ingresos -->
+                <div class="accordion-header">
+                    <label for="totalIngresos" class="form-label">Total Ingresos:</label>
+                    <input type="number" id="totalIngresos" class="form-control" name="totalIngresos" readonly>
+                </div>
+                
+                <!-- Gastos Comunes -->
+                <div class="accordion-header">
+                    <label for="totalGastosComunes" class="form-label">Total Gastos Comunes:</label>
+                    <input type="number" id="totalGastosComunes" class="form-control" name="totalGastosComunes" readonly>
+                </div>
+                
+                <!-- Servicios -->
+                <div class="accordion-header">
+                    <label for="totalServicios" class="form-label">Total Gastos Servicios:</label>
+                    <input type="number" id="totalServicios" class="form-control" name="totalServicios" readonly>
+                </div>
+                
+                <!-- Gastos Hormiga -->
+                <div class="accordion-header">
+                    <label for="totalGastosHormiga" class="form-label">Total Gastos Hormiga:</label>
+                    <input type="number" id="totalGastosHormiga" class="form-control" name="totalGastosHormiga" readonly>
+                </div>
+
+                <!-- Total General -->
+                <div class="accordion-header">
+                    <label for="totalGeneral" class="form-label">Total General:</label>
+                    <input type="number" id="totalGeneral" class="form-control" name="totalGeneral" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="totalesSection" style="display: none;">
+    <h3>Totales Calculados</h3>
+    <p>Total Ingresos: <span id="displayTotalIngresos">0</span></p>
+    <p>Total Gastos Comunes: <span id="displayTotalGastosComunes">0</span></p>
+    <p>Total Servicios: <span id="displayTotalServicios">0</span></p>
+    <p>Total Gastos Hormiga: <span id="displayTotalGastosHormiga">0</span></p>
+</div>
+
 </div>
 <div class="col-md-6" >
     <div class="card" id="grafico">

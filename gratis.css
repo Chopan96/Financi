@@ -138,3 +138,15 @@ form button:hover {
     text-align: center;
     border-radius: 4px;
 }
+
+.titulo-con-imagen {
+  display: flex;
+  align-items: center;
+  font-size: 24px; /* Tamaño del texto */
+}
+
+.icono {
+  width: 24px; /* Ancho de la imagen */
+  height: 24px; /* Alto de la imagen */
+  margin-right: 8px; /* Espacio entre la imagen y el texto */
+}

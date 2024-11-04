@@ -260,6 +260,63 @@ function guardarDatos() {
     alert('Datos guardados correctamente: ' + JSON.stringify(data));
 }
 
+function updateTotalesSection() {
+    const totalIngresos = document.getElementById("totalIngresos").value;
+    const totalGastosComunes = document.getElementById("totalGastosComunes").value;
+    const totalServicios = document.getElementById("totalServicios").value;
+    const totalGastosHormiga = document.getElementById("totalGastosHormiga").value;
+  
+    // Asegúrate de que los valores sean números, no cadenas
+    const totalIngresosNum = parseFloat(totalIngresos);
+    const totalGastosComunesNum = parseFloat(totalGastosComunes);
+    const totalServiciosNum = parseFloat(totalServicios);
+    const totalGastosHormigaNum = parseFloat(totalGastosHormiga);
+  
+    // Calcula el total general
+    const totalGeneral = totalIngresosNum - (totalGastosComunesNum + totalServiciosNum + totalGastosHormigaNum);
+  
+    // Actualiza los valores en el resumen
+    document.getElementById("displayTotalIngresos").textContent = totalIngresosNum;
+    document.getElementById("displayTotalGastosComunes").textContent = totalGastosComunesNum;
+    document.getElementById("displayTotalServicios").textContent = totalServiciosNum;
+    document.getElementById("displayTotalGastosHormiga").textContent = totalGastosHormigaNum;
+    document.getElementById("totalGeneral").textContent = totalGeneral;
+  }
+
+window.calculateTotalIngresos = function () {
+    const baseFields = ["numero1", "numero2"];
+    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
+    document.querySelectorAll("#extraFieldsContainer1 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
+    document.getElementById("totalIngresos").value = total;
+    updateChart();
+    updateTotalesSection();
+};
+
+window.calculateTotalGastosComunes = function () {
+    const baseFields = ["agua", "electricidad", "gas"];
+    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
+    document.querySelectorAll("#extraFieldsContainer2 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
+    document.getElementById("totalGastosComunes").value = total;
+    updateChart();
+    updateTotalesSection();
+};
+
+window.calculateTotalServicios = function () {
+    const baseFields = ["internet"];
+    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
+    document.querySelectorAll("#extraFieldsContainer3 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
+    document.getElementById("totalServicios").value = total;
+    updateChart();
+    updateTotalesSection();
+};
+
+window.calculateTotalGastosHormiga = function () {
+    let total = 0;
+    document.querySelectorAll("#extraFieldsContainer4 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
+    document.getElementById("totalGastosHormiga").value = total;
+    updateChart();
+    updateTotalesSection();
+};
 
 
 
