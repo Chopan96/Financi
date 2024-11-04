@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Configuración del gráfico inicial con valores por defecto
     const ctx = document.getElementById("myChart").getContext("2d");
     const chartData = {
         labels: ["Gastos Comunes", "Servicios", "Gastos Hormiga", "Ingresos Restantes"],
@@ -20,11 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ],
                 borderWidth: 1
             }
-        ],
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Si necesitas mantener la proporción
-        }
+        ]
     };
 
     // Crear el gráfico con Chart.js
@@ -33,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data: chartData,
         options: {
             responsive: true,
+            maintainAspectRatio: false
         }
     });
 
@@ -46,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalGastos = totalGastosComunes + totalServicios + totalGastosHormiga;
         const ingresosRestantes = totalIngresos - totalGastos;
 
-        // Actualizar los datos del gráfico
         chartData.datasets[0].data = [
             totalGastosComunes,
             totalServicios,
@@ -56,267 +53,110 @@ document.addEventListener("DOMContentLoaded", function () {
         myChart.update();
     }
 
-    // Actualizar el gráfico después de cada cálculo de total
-    window.calculateTotalIngresos = function () {
-        const baseFields = ["numero1", "numero2"];
-        let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-        document.querySelectorAll("#extraFieldsContainer1 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-        document.getElementById("totalIngresos").value = total;
+    // Función para calcular los totales y actualizar el gráfico y los valores en pantalla
+    function calculateTotal(inputIds, containerId, totalId) {
+        let total = inputIds.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
+        document.querySelectorAll(`#${containerId} input[type='number']`).forEach(field => total += parseFloat(field.value) || 0);
+        document.getElementById(totalId).value = total;
         updateChart();
+        updateTotalesSection();
+    }
+
+    // Funciones de cálculo individuales para cada sección
+    window.calculateTotalIngresos = function () {
+        calculateTotal(["numero1", "numero2"], "extraFieldsContainer1", "totalIngresos");
     };
 
     window.calculateTotalGastosComunes = function () {
-        const baseFields = ["agua", "electricidad", "gas"];
-        let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-        document.querySelectorAll("#extraFieldsContainer2 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-        document.getElementById("totalGastosComunes").value = total;
-        updateChart();
+        calculateTotal(["agua", "electricidad", "gas"], "extraFieldsContainer2", "totalGastosComunes");
     };
 
     window.calculateTotalServicios = function () {
-        const baseFields = ["internet"];
-        let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-        document.querySelectorAll("#extraFieldsContainer3 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-        document.getElementById("totalServicios").value = total;
-        updateChart();
+        calculateTotal(["internet"], "extraFieldsContainer3", "totalServicios");
     };
 
     window.calculateTotalGastosHormiga = function () {
-        let total = 0;
-        document.querySelectorAll("#extraFieldsContainer4 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-        document.getElementById("totalGastosHormiga").value = total;
-        updateChart();
+        calculateTotal([], "extraFieldsContainer4", "totalGastosHormiga");
     };
-});
 
-function mostrarFormulario() {
-    // Obtén una referencia al formulario
-    const formulario = document.getElementById("loginForm");
-
-    // Aplica estilos para mostrar el formulario centrado y sobre todo
-    formulario.style.display = "block";
-    formulario.style.position = "fixed";  // Mantiene el formulario en la misma posición en la pantalla
-    formulario.style.top = "50%";         // Centrado verticalmente
-    formulario.style.left = "50%";        // Centrado horizontalmente
-    formulario.style.transform = "translate(-50%, -50%)"; // Ajuste para centrar
-    formulario.style.backgroundColor = "white"; // Fondo blanco para contraste
-    formulario.style.padding = "20px";    // Espaciado interno
-    formulario.style.zIndex = "1000";     // Aparece encima de otros elementos
-    formulario.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)"; // Sombra para destacar
-    formulario.style.borderRadius = "8px"; // Bordes redondeados
-}
-
-//funcion del usuario
-function toggleAccordion(contentId) {
-    const content = document.getElementById(contentId);
-    content.style.display = (content.style.display === "none" || content.style.display === "") ? "block" : "none";
-}
-
-// Función para mostrar/ocultar el formulario de usuario
-function toggleLoginForm() {
-    const loginForm = document.getElementById('loginForm');
-    loginForm.style.display = loginForm.style.display === 'none' || loginForm.style.display === '' ? 'block' : 'none';
-}
-
-
-
-
-
-//funcion de la notificacion
-function alerta() {
-    alert("¡Esto es una alerta!");
-}
-
-
-function toggleAccordion(contentId) {
-    const content = document.getElementById(contentId);
-    const toggleButton = content.previousElementSibling.querySelector(".accordion-toggle");
-
-    if (content.classList.contains("open")) {
-        content.classList.remove("open");
-        toggleButton.innerHTML = "&#9662;";
-    } else {
-        content.classList.add("open");
-        toggleButton.innerHTML = "&#9652;";
+    // Función para actualizar la sección de totales en pantalla
+    function updateTotalesSection() {
+        // Tomar los valores y convertirlos a números (si están vacíos, se asigna 0)
+        const totalIngresos = parseFloat(document.getElementById("totalIngresos").value) || 0;
+        const totalGastosComunes = parseFloat(document.getElementById("totalGastosComunes").value) || 0;
+        const totalServicios = parseFloat(document.getElementById("totalServicios").value) || 0;
+        const totalGastosHormiga = parseFloat(document.getElementById("totalGastosHormiga").value) || 0;
+    
+        // Calcular el total general
+        const totalGeneral = totalIngresos - (totalGastosComunes + totalServicios + totalGastosHormiga);
+    
+        // Asignar valores a los campos de entrada en el resumen
+        document.getElementById("resumenIngresos").value = totalIngresos;
+        document.getElementById("resumenGastosComunes").value = totalGastosComunes;
+        document.getElementById("resumenServicios").value = totalServicios;
+        document.getElementById("resumenGastosHormiga").value = totalGastosHormiga;
+        document.getElementById("totalGeneral").value = totalGeneral;
     }
-}
+    
 
-let fieldCounters = {
-    'extraFieldsContainer1': 1,
-    'extraFieldsContainer2': 1,
-    'extraFieldsContainer3': 1,
-    'extraFieldsContainer4': 1
-};
+    // Función para mostrar el formulario de usuario en un popup centrado
+    window.mostrarFormulario = function () {
+        const formulario = document.getElementById("loginForm");
+        formulario.style.display = "block";
+        formulario.style.position = "fixed";
+        formulario.style.top = "50%";
+        formulario.style.left = "50%";
+        formulario.style.transform = "translate(-50%, -50%)";
+        formulario.style.backgroundColor = "white";
+        formulario.style.padding = "20px";
+        formulario.style.zIndex = "1000";
+        formulario.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+        formulario.style.borderRadius = "8px";
+    };
 
-function toggleAccordion(id) {
-    const element = document.getElementById(id);
-    element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';
-}
+    // Función para alternar la visibilidad de contenido
+    window.toggleAccordion = function (contentId) {
+        const content = document.getElementById(contentId);
+        content.style.display = (content.style.display === "none" || content.style.display === "") ? "block" : "none";
+    };
 
-function toggleNewFieldContainer(containerId) {
-    const container = document.getElementById(containerId);
-    container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'block' : 'none';
-}
+    // Función para alternar el contenedor de campos adicionales
+    window.toggleNewFieldContainer = function (containerId) {
+        const container = document.getElementById(containerId);
+        container.style.display = (container.style.display === "none" || container.style.display === "") ? "block" : "none";
+    };
 
-        // Función para mostrar u ocultar el contenedor del nuevo título de campo
-        function toggleNewFieldContainer(id) {
-            const element = document.getElementById(id);
-            element.style.display = (element.style.display === 'none' || element.style.display === '') ? 'block' : 'none';  
-        
-        }
-
-       // Función para agregar un campo de input dinámico
-       function addInputField(containerId, titleInputId, calculateFunction) {
+    // Agregar un campo de entrada adicional
+    window.addInputField = function (containerId, titleInputId, calculateFunction) {
         const container = document.getElementById(containerId);
         const titleInput = document.getElementById(titleInputId).value;
-        const counter = fieldCounters[containerId];
 
         if (!titleInput) {
             alert("Por favor, escribe un título para el nuevo campo.");
             return;
         }
 
+        const newFieldDiv = document.createElement("div");
+        const newLabel = document.createElement("label");
+        const newInput = document.createElement("input");
 
-        // Crear el contenedor del nuevo campo
-            const newFieldDiv = document.createElement("div");
-            newFieldDiv.classList.add("mb-3");
-            newFieldDiv.setAttribute("id", `fieldGroup${containerId}${counter}`);
+        newLabel.textContent = titleInput;
+        newInput.type = "number";
+        newInput.oninput = window[calculateFunction];
+        newFieldDiv.appendChild(newLabel);
+        newFieldDiv.appendChild(newInput);
+        container.appendChild(newFieldDiv);
         
-            const newLabel = document.createElement("label");
-            newLabel.setAttribute("for", `extraField${containerId}${counter}`);
-            newLabel.classList.add("form-label");
-            newLabel.textContent = titleInput;
-        
-            const newInput = document.createElement("input");
-            newInput.setAttribute("type", "number");
-            newInput.setAttribute("id", `extraField${containerId}${counter}`);
-            newInput.classList.add("form-control");
-            newInput.setAttribute("name", `extraField${containerId}${counter}`);
-            newInput.setAttribute("oninput", `${calculateFunction}()`);
-        
-            newFieldDiv.appendChild(newLabel);
-            newFieldDiv.appendChild(newInput);
-        
-            container.appendChild(newFieldDiv);
-            fieldCounters[containerId]++;
-            document.getElementById(titleInputId).value = '';
-        }
-        function removeLastField(containerId) {
-            const container = document.getElementById(containerId);
-            const counter = fieldCounters[containerId] - 1;
-
-            if (counter > 0) {
-                const fieldToRemove = document.getElementById(`fieldGroup${containerId}${counter}`);
-                fieldToRemove.remove();
-                fieldCounters[containerId]--;
-            }
-        }
-
-        // Función para alternar la visibilidad del contenido del acordeón
-        function toggleAccordion(contentId) {
-            const content = document.getElementById(contentId);
-            content.style.display = (content.style.display === "none" || content.style.display === "") ? "block" : "none";
-        }
-
-
-// Calcular total de Ingresos del Usuario
-function calculateTotalIngresos() {
-    const baseFields = ['numero1', 'numero2'];
-    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-    document.querySelectorAll('#extraFieldsContainer1 input[type="number"]').forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById('totalIngresos').value = total;
-}
-
-// Calcular total de Gastos Comunes con 3 campos estáticos
-function calculateTotalGastosComunes() {
-    const baseFields = ['agua', 'electricidad', 'gas']; // Añade aquí los ids de tus campos estáticos
-    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-    document.getElementById('totalGastosComunes').value = total;
-}
-
-// Calcular total de Servicios
-function calculateTotalServicios() {
-    const baseFields = ['internet'];
-    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-    document.querySelectorAll('#extraFieldsContainer3 input[type="number"]').forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById('totalServicios').value = total;
-}
-
-// Calcular total de Gastos Hormiga
-function calculateTotalGastosHormiga() {
-    let total = 0;
-    document.querySelectorAll('#extraFieldsContainer4 input[type="number"]').forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById('totalGastosHormiga').value = total;
-}
-
-function guardarDatos() {
-    const data = {
-        totalIngresos: parseFloat(document.getElementById('totalIngresos').value) || 0,
-        totalGastosComunes: parseFloat(document.getElementById('totalGastosComunes').value) || 0,
-        totalServicios: parseFloat(document.getElementById('totalServicios').value) || 0,
-        totalGastosHormiga: parseFloat(document.getElementById('totalGastosHormiga').value) || 0,
+        document.getElementById(titleInputId).value = '';
     };
-    localStorage.setItem('datosFormulario', JSON.stringify(data));
-    alert('Datos guardados correctamente: ' + JSON.stringify(data));
-}
 
-function updateTotalesSection() {
-    const totalIngresos = document.getElementById("totalIngresos").value;
-    const totalGastosComunes = document.getElementById("totalGastosComunes").value;
-    const totalServicios = document.getElementById("totalServicios").value;
-    const totalGastosHormiga = document.getElementById("totalGastosHormiga").value;
-  
-    // Asegúrate de que los valores sean números, no cadenas
-    const totalIngresosNum = parseFloat(totalIngresos);
-    const totalGastosComunesNum = parseFloat(totalGastosComunes);
-    const totalServiciosNum = parseFloat(totalServicios);
-    const totalGastosHormigaNum = parseFloat(totalGastosHormiga);
-  
-    // Calcula el total general
-    const totalGeneral = totalIngresosNum - (totalGastosComunesNum + totalServiciosNum + totalGastosHormigaNum);
-  
-    // Actualiza los valores en el resumen
-    document.getElementById("displayTotalIngresos").textContent = totalIngresosNum;
-    document.getElementById("displayTotalGastosComunes").textContent = totalGastosComunesNum;
-    document.getElementById("displayTotalServicios").textContent = totalServiciosNum;
-    document.getElementById("displayTotalGastosHormiga").textContent = totalGastosHormigaNum;
-    document.getElementById("totalGeneral").textContent = totalGeneral;
-  }
-
-window.calculateTotalIngresos = function () {
-    const baseFields = ["numero1", "numero2"];
-    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-    document.querySelectorAll("#extraFieldsContainer1 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById("totalIngresos").value = total;
-    updateChart();
-    updateTotalesSection();
-};
-
-window.calculateTotalGastosComunes = function () {
-    const baseFields = ["agua", "electricidad", "gas"];
-    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-    document.querySelectorAll("#extraFieldsContainer2 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById("totalGastosComunes").value = total;
-    updateChart();
-    updateTotalesSection();
-};
-
-window.calculateTotalServicios = function () {
-    const baseFields = ["internet"];
-    let total = baseFields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id).value) || 0), 0);
-    document.querySelectorAll("#extraFieldsContainer3 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById("totalServicios").value = total;
-    updateChart();
-    updateTotalesSection();
-};
-
-window.calculateTotalGastosHormiga = function () {
-    let total = 0;
-    document.querySelectorAll("#extraFieldsContainer4 input[type='number']").forEach(field => total += parseFloat(field.value) || 0);
-    document.getElementById("totalGastosHormiga").value = total;
-    updateChart();
-    updateTotalesSection();
-};
+    // Remover el último campo agregado
+    window.removeLastField = function (containerId) {
+        const container = document.getElementById(containerId);
+        const lastField = container.lastElementChild;
+        if (lastField) container.removeChild(lastField);
+    };
+});
 
 
 
