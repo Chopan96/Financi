@@ -53,7 +53,12 @@
 <div class="row">
     
    <!-- Primera caja Ingresos del usuario -->
-<div class="col-md-6">
+   <div class="col-md-6">
+    <div class="montos">
+        <div class="titulo">
+            <h3>
+                <img src="imagenes/grafico.png" alt="Ícono" class="icono">Montos</h3>
+        </div>
    <div class="accordion-container my-4">
     <div class="accordion-header d-flex justify-content-between align-items-center">
         <img src="imagenes/Dinero.png" alt="Icono de ingresos" class="icono">
@@ -213,7 +218,10 @@
   <div id="botonguardar">
     <button type="button" class="btn btn-primary" onclick="guardarDatos()">Guardar datos</button>
   </div>
-  <div class="contenedor ">
+</div>
+</div> 
+<div class="col-md-6">
+    <div class="resumenes">
     <!-- Sección de Resumen de Totales -->
     <div class="card">
         <div class="titulo">
@@ -259,6 +267,7 @@
 
 
 </div>
+
 <div class="col-md-6" >
     <div class="card" id="grafico">
         <div class="titulo">
@@ -270,6 +279,20 @@
     </div>
 </div>
 </div> 
+<footer class="bg-dark text-light py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <h5>Financi</h5>
+                <p>© 2023 Financi, Todos los derechos reservados.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <a href="#" class="text-light me-3">Privacidad</a>
+                <a href="#" class="text-light">Términos de uso</a>
+            </div>
+        </div>
+    </div>
+</footer>
 </div>
 </body>
 <script src="gratis.js"></script>
