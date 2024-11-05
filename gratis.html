@@ -93,7 +93,6 @@
             <!-- Botones para agregar titulo/guardar datos -->
             <div id="botones"  class="d-flex gap-3">
                 <button type="button" id="boton1"  class="btn btn-info" onclick="toggleNewFieldContainer('newFieldContainer1')">+</button>
-                <button type="button" class="btn btn-primary" onclick="guardarDatos()">Guardar datos</button>
             </div>
 
         </form>
@@ -130,8 +129,6 @@
                 <label for="totalGastosComunes" class="form-label">Total Gastos Comunes:</label>
                 <input type="number" id="totalGastosComunes" class="form-control" name="totalGastosComunes" readonly>
             </div>
-
-            <button type="submit" class="btn btn-primary mt-3" onclick="guardarDatos()">Guardar datos</button>
         </form>
     </div>
 </div>
@@ -170,7 +167,6 @@
             <!-- Botones para agregar titulo/guardar datos -->
             <div id="botones"  class="d-flex gap-3">
                 <button type="button" id="boton1"  class="btn btn-info" onclick="toggleNewFieldContainer('newFieldContainer3')">+</button>
-                <button type="button" class="btn btn-primary" onclick="guardarDatos()">Guardar datos</button>
             </div>
 
         </form>
@@ -209,18 +205,20 @@
 
             <div id="botones"  class="d-flex gap-3">
                 <button type="button" id="boton1"  class="btn btn-info" onclick="toggleNewFieldContainer('newFieldContainer4')">+</button>
-                <button type="button" class="btn btn-primary" onclick="guardarDatos()">Guardar datos</button>
             </div>
                 
         </form>
     </div>
+  </div>
+  <div id="botonguardar">
+    <button type="button" class="btn btn-primary" onclick="guardarDatos()">Guardar datos</button>
   </div>
   <div class="contenedor ">
     <!-- Sección de Resumen de Totales -->
     <div class="card">
         <div class="titulo">
             <h4 class="titulo-con-imagen">
-                <img src="icono-total.png" alt="Ícono" class="icono">Resumen de Totales
+                <img src="imagenes/lista.png" alt="Ícono" class="icono">Resumen de Totales
             </h4>
         </div>
         <div class="card-body">

@@ -150,3 +150,8 @@ form button:hover {
   height: 24px; /* Alto de la imagen */
   margin-right: 8px; /* Espacio entre la imagen y el texto */
 }
+#botonguardar{
+  text-align: center;
+  margin-left: 170px;
+  margin-right: 170px;
+}

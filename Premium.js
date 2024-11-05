@@ -16,15 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
             totalGastosHormiga,
             ingresosRestantes > 0 ? ingresosRestantes : 0
         ];
-        myChart.update();
-
-        const fechaActual = new Date().toLocaleDateString();
-        lineChartData.labels.push(fechaActual);
-        lineChartData.datasets[0].data.push(totalIngresos);
-        lineChartData.datasets[1].data.push(totalGastos);
-    
-        lineChart.update();
-    
+        myChart.update();    
     }
 
     // Función para calcular los totales y actualizar el gráfico y los valores en pantalla
